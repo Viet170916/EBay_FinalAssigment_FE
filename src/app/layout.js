@@ -7,7 +7,7 @@ export const metadata = {
   title: 'eBay Clone',
   description: 'eBay Clone',
 }
-
+export const revalidate = 60
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
