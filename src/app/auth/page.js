@@ -9,13 +9,13 @@ import eBayLogo from '../../../public/logo.svg'
 import { useEffect, useState } from 'react';
 
 export default function AuthPage(){
-    const [windowOrigin , setWindowOrigin ] = useState(null)
+    // const [windowOrigin , setWindowOrigin ] = useState(null)
     const supabase = createClientComponentClient();
     // if(typeof window !== undefined){
     // }
-    useEffect(()=>{
-        setWindowOrigin(window.location.origin)
-    },[])
+    // useEffect(()=>{
+    //     setWindowOrigin(window.location.origin)
+    // },[])
     return(
         <>
             <div id="AuthPage" className="w-w-full min-h-screen bg-white">
@@ -32,7 +32,8 @@ export default function AuthPage(){
                 <div className="max-w-[400px] mx-auto px-2">
                     <Auth 
                         onlyThirdPartyProviders
-                        redirectTo={`${windowOrigin}/auth/callback`}
+                        // redirectTo={`${windowOrigin}/auth/callback`}
+                        redirectTo={`https://ebay-nextjsclone.vercel.app/auth/callback`}
                         supabaseClient={supabase}
                         providers={['google']}
                         appearance={{
