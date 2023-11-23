@@ -14,5 +14,5 @@ export async function GET(request){
         await supabase.auth.exchangeCodeForSession(code)
     }
 
-    return NextResponse.redirect("/");
+    return NextResponse.redirect("https://ebay-nextjsclone.vercel.app/");
 }
