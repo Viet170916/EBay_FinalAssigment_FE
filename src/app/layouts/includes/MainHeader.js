@@ -95,7 +95,7 @@ export default function MainHeader(){
                                                             <div className="p-1" key={item?.id}>
                                                                 <Link href={`/product/${item?.id}`} className="flex items-center justify-between w-full cursor-pointer hover:bg-gray-200 p-1 px-2">
                                                                   <div className="flex items-center">
-                                                                        <img src={`${item?.url + "/40"}`} alt="search-image" className="rounded-md" />
+                                                                        <img src={`${item?.url }`} alt="search-image" className="rounded-md" />
                                                                         <div className="truncate ml-2">{item?.title}</div>
                                                                   </div>
                                                                   <div className="truncate">{(item?.price / 100).toFixed(2)}</div>
