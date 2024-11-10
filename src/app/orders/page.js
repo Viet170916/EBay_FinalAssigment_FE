@@ -3,7 +3,6 @@
 import MainLayout from "../layouts/MainLayout";
 import Image from "next/image";
 import {CiDeliveryTruck} from 'react-icons/ci'
-import logo from '../../../public/dummy-product.jpg'
 import Link from "next/link";
 import {useUser} from "../context/user";
 import {useEffect, useState} from "react";
@@ -74,17 +73,17 @@ export default function Orders() {
 
                                             <div className="pt-2">
                                                 <span className="font-bold mr-2">Total:</span>
-                                                ₹{order?.total / 100}
+                                                ${order?.total / 100}
                                             </div>
 
                                             <div className="pt-2">
                                                 <span className="font-bold mr-2">Order Created:</span>
-                                                ₹{moment(order?.created_at).calendar()}
+                                                ${moment(order?.created_at).calendar()}
                                             </div>
 
                                             <div className="pt-2">
                                                 <span className="font-bold mr-2">Delivery Time:</span>
-                                                ₹{moment(order?.created_at).add(3, "days").calendar()}
+                                                ${moment(order?.created_at).add(3, "days").calendar()}
                                             </div>
 
                                             <div className="flex items-center gap-4">

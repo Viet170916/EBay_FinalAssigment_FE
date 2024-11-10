@@ -1,9 +1,7 @@
 "use client"
 import CheckoutItem from "../components/CheckoutItem";
 import MainLayout from "../layouts/MainLayout";
-import logo from '../../../public/dummy-product.jpg'
 import eBayLogo from '../../../public/logo.svg'
-import Image from "next/image";
 import { useUser } from "../context/user";
 import { useCart } from "../context/cart";
 import { useRouter } from "next/navigation";
@@ -37,15 +35,14 @@ export default function Checkout(){
         useIsLoading(true)
 
         const getAdddress = async () => {
-            if (user?.id == null || user?.id == undefined) {
+            if (user?.id != null) {
+                setIsLoadingAddress(true)
+                const response = await useUserAddress()
+                if (response) setAddressDetails(response)
+                setIsLoadingAddress(false)
+            } else {
                 useIsLoading(false)
-                return
             }
-
-            setIsLoadingAddress(true)
-            const response = await useUserAddress()
-            if (response) setAddressDetails(response)
-            setIsLoadingAddress(false)
         }
 
         getAdddress()
@@ -85,7 +82,7 @@ export default function Checkout(){
     const pay = async (event) => {
         event.preventDefault()
 
-        if (Object.entries(addressDetails).length == 0) {
+        if (Object.entries(addressDetails).length === 0) {
             showError('Please add shipping address!')
             return 
         }
@@ -115,7 +112,7 @@ export default function Checkout(){
                 })
                 console.log('addressDetails', addressDetails);
                 
-                if (response.status == 200) {
+                if (response.status === 200) {
                     toast.success('Order Complete!', { autoClose: 3000 })
                     cart.clearCart()
                     return router.push('/success')
@@ -189,7 +186,7 @@ export default function Checkout(){
                             <div className="p-4">
                                 <div className="flex items-baseline justify-between text-sm mb-1">
                                     <div>Items ({cart.getCart().length})</div>
-                                    <div>₹{(cart.cartTotal() / 100).toFixed(2)}</div>
+                                    <div>${(cart.cartTotal() / 100).toFixed(2)}</div>
                                 </div>
                                 <div className="flex items-center justify-between mb-4 text-sm">
                                     <div>Shipping:</div>
@@ -201,7 +198,7 @@ export default function Checkout(){
                                 <div className="flex items-center justify-between my-4">
                                     <div className="font-semibold">Order total</div>
                                     <div className="text-2xl font-semibold">
-                                    ₹{(cart.cartTotal() / 100).toFixed(2)}
+                                    ${(cart.cartTotal() / 100).toFixed(2)}
                                     </div>
                                 </div>
 
@@ -228,7 +225,7 @@ export default function Checkout(){
                         </ClientOnly>
 
                         <div className="flex items-center p-4 justify-center gap-2 border-t">
-                            <img width={50} src={eBayLogo} />
+                            <img width={50} src={eBayLogo} alt={"logo"} />
                             <div className=" font-light mb-2 mt-2">MONEY BACK GUARANTEE</div>
                         </div>
                     </div>
