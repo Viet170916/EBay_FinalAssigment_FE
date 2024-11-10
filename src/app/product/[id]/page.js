@@ -2,8 +2,6 @@
 
 import MainLayout from "@/app/layouts/MainLayout"
 import SimilarProducts from "@/app/components/SimilarProducts.js"
-import logo from "../../../../public/dummy-product.jpg";
-import Image from "next/image";
 import { useCart } from "@/app/context/cart";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
@@ -35,7 +33,7 @@ console.log('products',products);
                 <div className="max-w-[1200px] mx-auto">
                     <div className="flex px-4 py-10">
                         {
-                            products.url ? <img className="w-[40%] h-[270px] object-cover rounded-lg" src={products?.url+'/280'} alt="product-image"/> : <div className="w-[40%]"></div>
+                            products.url ? <img className="w-[40%] h-[270px] object-cover rounded-lg" src={products?.url} alt="product-image"/> : <div className="w-[40%]"></div>
                         }
 
                         <div className="px-4 w-full">
@@ -57,7 +55,7 @@ console.log('products',products);
                                     <div className="flex items-center">
                                         Price:
                                         {products?.price ? <div className="font-bold text-[20px] ml-2">
-                                            GBP ₹{(products?.price / 100).toFixed(2)}
+                                            GBP ${(products?.price / 100).toFixed(2)}
                                         </div> : null}
                                     </div>
 
