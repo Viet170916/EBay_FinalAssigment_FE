@@ -1,5 +1,8 @@
 import prisma from "@/app/libs/Prisma";
 import { NextResponse } from "next/server";
+import {bucketName, s3_v2} from "@/AWS";
+import {GetObjectCommand} from "@aws-sdk/client-s3";
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 export async function GET(){
     try {
 
@@ -13,7 +16,15 @@ export async function GET(){
                 id: "asc"
             }
         })
-
+        for (let i = 0; i< products.length; i++) {
+            const params = {
+                Bucket: bucketName,
+                Key: products[i].url,
+                // ContentType: post.type,
+            };
+            const command = new GetObjectCommand(params);
+            products[i].url = await getSignedUrl(s3_v2, command, {expiresIn: 3600});
+        }
 
         await prisma.$disconnect();
         return NextResponse.json(products);
