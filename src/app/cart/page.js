@@ -2,8 +2,6 @@
 
 import MainLayout from "@/app/layouts/MainLayout"
 import SimilarProducts from "@/app/components/SimilarProducts.js"
-import logo from "../../../public/dummy-product.jpg";
-import Image from "next/image";
 import CartItem from "../components/CartItem";
 import {useRouter} from "next/navigation";
 import { useCart } from "../context/cart";
@@ -52,7 +50,7 @@ export default function Cart(){
 
                                     <div className="flex items-center justify-between mt-4 text-sm mb-1">
                                         <div>Items ({cart.getCart().length})</div>
-                                        <div>₹{(cart.cartTotal() / 100 ).toFixed(2)}</div>
+                                        <div>${(cart.cartTotal() / 100 ).toFixed(2)}</div>
                                     </div>
                                     <div className="flex items-center justify-between mb-4 text-sm">
                                         <div>Shipping:</div>
@@ -63,7 +61,7 @@ export default function Cart(){
                                 
                                     <div className="flex items-center justify-between mt-4 mb-1 text-lg font-semibold">
                                         <div>Subtotal</div>
-                                        <div>₹{(cart.cartTotal() / 100 ).toFixed(2)}</div>
+                                        <div>${(cart.cartTotal() / 100 ).toFixed(2)}</div>
                                     </div>
                                 </div>
                             </ClientOnly>
