@@ -113,6 +113,7 @@ export default function Checkout(){
                         total: cart.cartTotal()
                     })
                 })
+                console.log('addressDetails', addressDetails);
                 
                 if (response.status == 200) {
                     toast.success('Order Complete!', { autoClose: 3000 })
