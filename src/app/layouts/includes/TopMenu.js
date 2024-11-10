@@ -2,31 +2,32 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import {BsChevronDown } from 'react-icons/bs'
-import {AiOutlineShoppingCart } from 'react-icons/ai'
+import {BsChevronDown} from 'react-icons/bs'
+import {AiOutlineShoppingCart} from 'react-icons/ai'
 
-import Zuck from '../../../../2247901.webp';
 import flag from '../../../../public/flag.png';
 
 
-import { useState } from "react"
-import { useUser } from "@/app/context/user"
-import { useCart } from "@/app/context/cart"
-export default function TopMenu(){
+import {useState} from "react"
+import {useUser} from "@/app/context/user"
+import {useCart} from "@/app/context/cart"
+import axios from "axios";
+
+export default function TopMenu() {
     const user = useUser();
     const cart = useCart();
     console.log('userDATA', user);
-    const [isMenu , setIsMenu] = useState(false);
-    const handleMenu=()=>{
+    const [isMenu, setIsMenu] = useState(false);
+    const handleMenu = () => {
         setIsMenu(!isMenu);
     }
-    const isLoggedIn=()=>{
-        if(user && user?.id){
+    const isLoggedIn = () => {
+        if (user && user?.id) {
             return (
                 <>
-                    <button onClick={handleMenu} className="flex items-center gap-2 hover:underline cursor-pointer"> 
+                    <button onClick={handleMenu} className="flex items-center gap-2 hover:underline cursor-pointer">
                         <div>Hi, {user?.name} </div>
-                        <BsChevronDown />
+                        <BsChevronDown/>
                     </button>
                 </>
             )
@@ -37,17 +38,17 @@ export default function TopMenu(){
                 <div>
                     <h1>Login</h1>
                 </div>
-                <BsChevronDown />
+                <BsChevronDown/>
             </Link>
         )
     }
-    return(
+    return (
         <>
             <div id="TopMenu" className="border-b">
                 <div className="flex items-center justify-between w-full mx-auto max-w-[1200px]">
                     <ul
-                       id="TopMenuLeft"
-                       className="flex items-center text-[11px] text-[#333333] px-2 h-8"
+                        id="TopMenuLeft"
+                        className="flex items-center text-[11px] text-[#333333] px-2 h-8"
                     >
                         <li
                             className="relative px-3"
@@ -56,7 +57,8 @@ export default function TopMenu(){
                             {
                                 isLoggedIn()      // here you can use Ternary operator for user ? () : ()
                             }
-                            <div id="authDropDown" className={`${isMenu ? "visible" : "hidden"}  absolute bg-white w-[200px] text-[#333333] z-40 top-[20px] left-0 border shadow-lg`}>
+                            <div id="authDropDown"
+                                 className={`${isMenu ? "visible" : "hidden"}  absolute bg-white w-[200px] text-[#333333] z-40 top-[20px] left-0 border shadow-lg`}>
                                 <div className="flex items-center justify-start gap-1 p-3">
                                     {/* <Image width={50} height={50} src={user?.picture} alt="user-image" /> */}
                                     <img src={user?.picture} width={50} height={50} alt="user-image"/>
@@ -69,13 +71,35 @@ export default function TopMenu(){
                                             My orders
                                         </Link>
                                     </li>
-                                    <li onClick={()=>{
+                                    <li className="text-[11px] py-2 px-4 w-full hover:underline text-blue-500 hover:text-blue-600 cursor-pointer">
+
+                                        {user?.role === "vendor" ?
+                                            <Link href={'/product/create'}>
+                                                Create product
+                                            </Link> :
+                                            <Link href={"#"} onClick={(e) => {
+                                                e.preventDefault();
+                                                if (user?.id) {
+                                                    axios.post("http://localhost:5180/api/account/registering-vendor/" + user?.id,).then(res => {
+                                                        if (res.data?.isVendor) {
+                                                            user.setUser(u => ({...u, role: "vendor"}));
+                                                            user.setRole("vendor");
+                                                        }
+                                                    });
+                                                }
+                                            }}>
+                                                Ready to be vendor
+                                            </Link>}
+
+                                    </li>
+                                    <li onClick={() => {
                                         user?.signOut();
                                         setIsMenu(false)
-                                    }} className="text-[11px] py-2 px-4 w-full hover:underline text-blue-500 hover:text-blue-600 cursor-pointer">
+                                    }}
+                                        className="text-[11px] py-2 px-4 w-full hover:underline text-blue-500 hover:text-blue-600 cursor-pointer">
                                         Sign out
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </li>
@@ -100,11 +124,12 @@ export default function TopMenu(){
                             <div className="relative">
                                 <AiOutlineShoppingCart size={22}/>
                                 {
-                                    cart.cartCount() > 0 ?<div className="absolute text-[10px] -top-[2px] -right-[5px] bg-red-500 w-[14px] h-[14px] rounded-full text-white">
-                                    <div className="flex items-center justify-center -mt-[1px]">
-                                        {cart.cartCount()}
-                                    </div>
-                                </div> : <div></div>
+                                    cart.cartCount() > 0 ? <div
+                                        className="absolute text-[10px] -top-[2px] -right-[5px] bg-red-500 w-[14px] h-[14px] rounded-full text-white">
+                                        <div className="flex items-center justify-center -mt-[1px]">
+                                            {cart.cartCount()}
+                                        </div>
+                                    </div> : <div></div>
                                 }
                             </div>
                         </Link>

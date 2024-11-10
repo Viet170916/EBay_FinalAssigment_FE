@@ -2,6 +2,7 @@ import Stripe  from 'stripe'
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import prisma from "@/app/libs/Prisma";
 export async function POST(req){
     const supabase = createServerComponentClient({cookies});
 
@@ -15,7 +16,7 @@ export async function POST(req){
         
         const res = await stripe.paymentIntents.create({
             amount : Number(body?.amount),
-            currency: "INR",
+            currency: "USD",
             automatic_payment_methods:{
                 enabled: true
             }
@@ -27,6 +28,6 @@ export async function POST(req){
         console.log('error',error);
         await prisma.$disconnect();
 
-        return new NextResponse("Something went wrong",{status: 400})
+        return new NextResponse(error,{status: 400})
     }
 }
