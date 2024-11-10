@@ -11,10 +11,13 @@ export default function MainLayout({children}){
 
     const [isLoading , setIsLoading] = useState(false);
     useEffect(()=>{
-        window.addEventListener("storage" , ()=>{
-            let res = localStorage.getItem("isLoading");
-            res === "false" ? setIsLoading(false) : setIsLoading(true)
-        })
+        if (typeof window !== "undefined") {
+            window.addEventListener("storage" , ()=>{
+                let res = localStorage.getItem("isLoading");
+                res === "false" ? setIsLoading(false) : setIsLoading(true)
+            })
+        }
+
     },[])
     return(
         <>
